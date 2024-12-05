@@ -1,0 +1,143 @@
+@layer tailwind-base, primereact, tailwind-utilities;
+
+/* IMPORTANT: In "styled" mode you must add the PrimeReact Theme here. Do NOT include in "unstyled" mode */
+@import 'primereact/resources/themes/saga-blue/theme.css' layer(primereact);
+
+@layer tailwind-base {
+  @tailwind base;
+}
+
+@layer tailwind-utilities {
+  @tailwind components;
+  @tailwind utilities;
+}
+
+:root {
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: var(--surface-card);
+  overflow-y: hidden;
+  background-color: rgb(237, 237, 237);
+}
+
+h1 {
+  margin-top: 0;
+}
+
+/* FOr sidebar */
+.sidebar {
+  @apply w-[260px] duration-300 absolute z-20;
+}
+.head-of-sidebar {
+  @apply h-svh bg-[#3c4b64];
+}
+.pi-times {
+  @apply text-black hidden border-2 border-black rounded-2xl p-1 absolute top-2 -right-12;
+}
+.pi-times:hover .close-noti {
+  @apply block transition-all ease-in-out;
+}
+.close-noti {
+  @apply hidden absolute -bottom-10 -left-[14px] text-sm bg-[#a7a7a7] border border-gray-400 pl-3 pr-3 pt-1 pb-1 rounded-sm text-white;
+}
+.background-layout {
+  @apply hidden z-10 absolute left-0 right-0 h-[100%] bg-black opacity-20;
+}
+.pi-angle-down,
+.pi-angle-up {
+  display: inline-block;
+  position: absolute;
+  right: 20px;
+  top: 21px;
+}
+
+.nav-icon {
+  position: absolute;
+  top: 17px;
+  left: 20px;
+  font-size: 22px;
+}
+
+/* For content */
+.content-container {
+  @apply relative flex flex-col ml-[260px] mr-0 h-dvh border translate-x-0 duration-300;
+}
+/* For header */
+svg:hover {
+  fill: rgb(101, 101, 101);
+  cursor: pointer;
+}
+.header {
+  @apply h-[70px] text-black bg-white;
+}
+.menu-bar {
+  @apply ml-5 mt-6 text-xl flex items-center cursor-pointer;
+}
+/* Avatar */
+.avatar-container {
+  @apply rounded-[60px] h-[60px] w-[60px] absolute right-10 top-1 cursor-pointer bg-gray-200 flex justify-center;
+}
+.avatar {
+  @apply w-[45px] mt-1;
+}
+/* For small menu when avatar is clicked */
+.small-menu {
+  @apply rounded-lg w-[170px] bg-white absolute top-[80px] right-10 hidden z-10;
+}
+.menu-items {
+  @apply bg-gray-200 text-black font-bold pl-4;
+}
+.menu-subitems {
+  @apply cursor-pointer hover:bg-gray-200 pl-5 pt-1 pb-1 flex items-center;
+}
+.log-out {
+  @apply border border-t-gray-300 cursor-pointer pl-5 pt-3 pb-2 rounded-b-lg hover:bg-gray-200 flex items-center;
+}
+.icon {
+  @apply h-4 mr-2;
+}
+/* For footer */
+.footer {
+  @apply h-14 flex items-center pl-4 text-white mt-[230px];
+}
+
+/* Test collapsible */
+/* Style the collapsible content. Note: hidden by default */
+.label {
+  @apply cursor-pointer h-14 pt-4 pl-16 relative text-[#fff9] hover:bg-[#ffffff0d] hover:text-[#ffffffde];
+}
+.label-selected {
+  @apply bg-[#ffffff0d] text-[#ffffffde];
+}
+.content {
+  max-height: 0;
+  overflow: hidden;
+  background-color: #2c384af2;
+  transition: all 0.5s cubic-bezier(0, 1, 0, 1);
+}
+.show {
+  height: auto;
+  max-height: 9999px;
+  transition: all 0.5s cubic-bezier(1, 0, 1, 0);
+}
+@media (max-width: 768px) {
+  .sidebar {
+    @apply translate-x-[-100%] duration-300;
+  }
+  .content-container {
+    @apply ml-0;
+  }
+  .footer {
+    @apply left-0;
+  }
+}

@@ -1,0 +1,8 @@
+#all node_modules from all directories
+**/node_modules/
+
+#docker
+docker-compose.yml
+**/.vscode/
+
+.vscode/

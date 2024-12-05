@@ -1,0 +1,59 @@
+/* Account.css */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.card {
+  font-size: 1rem;
+  display: flex;
+  flex-direction: column;
+  height: 93%;
+  width: 100%;
+  padding: 0.4rem;
+  box-sizing: border-box;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.add-button {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.data-table {
+  min-width: 50rem;
+  font-size: 1rem;
+}
+
+.column-center {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.column-header-center {
+  text-align: center;
+}
+
+.email-column {
+  text-align: center;
+  vertical-align: middle;
+  word-wrap: break-word;
+  word-break: break-all;
+  white-space: normal;
+  max-width: 270px;
+}

@@ -1,0 +1,192 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  ADMIN
+  MODERATOR
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+enum ParticipantStatus {
+  WORKING
+  RESIGNATION
+  RETIRED
+}
+
+model User {
+  id       String   @id @default(uuid())
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  email      String
+  familyName String?
+  givenName  String?
+
+  role UserRole @default(MODERATOR)
+
+  activities Activity[]
+
+  unionDeptId String?
+  unionDept   UnionDepartment? @relation(fields: [unionDeptId], references: [id])
+}
+
+  model Participant {
+    id            String                       @id @default(uuid())
+    createdAt     DateTime                     @default(now())
+    updatedAt     DateTime                     @updatedAt
+    isUnionMember Boolean                      @default(false)
+    dob           DateTime                     @default(now())
+    email         String                       @default("vanA@gmail.com")
+    phone         String                       @default("+012345678")
+    sID           String                       @unique @default("1234")
+    uID           String?                      @unique
+    faculty       Faculty                      @relation(fields: [facultyId], references: [id])
+    unionDept     UnionDepartment?             @relation(fields: [unionDeptId], references: [id])
+    unionJoinDate DateTime?
+    familyName    String?                      @default("Nguyen Van ")
+    givenName     String?                      @default("A")
+    gender        Gender                       @default(MALE)
+    
+    activities    ParticipantAndActivity[]
+    achievements  AchievementsOnParticipants[]
+    numOfChildren Int                          @default(0)
+    childs        Child[]
+    workingStatus ParticipantStatus?
+    facultyName   String                        @default("MT")
+    facultyId     String                        @default("MT")
+    unionDeptId   String?                      
+    
+  }
+
+model Faculty {
+  id       String   @id @default(uuid())
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  code String
+  name String @unique
+
+  unionDeptId String
+  unionDept   UnionDepartment @relation(fields: [unionDeptId], references: [id])
+
+  achievements Achievement[]
+  Participant  Participant[]
+
+  // @@index([facultyId], name: "facultyId")
+  // @@index([unionDeptId], name: "unionDeptId")
+}
+
+model UnionDepartment {
+  id String @id @default(uuid())
+
+  code     String
+  name     String   @unique
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  faculties    Faculty[]
+  facultyCount Int       @default(0)
+
+  activities   Activity[]
+  participants Participant[]
+  moderators   User[]
+}
+
+model Activity {
+  id       String                 @id @default(uuid())
+  createAt DateTime               @default(now())
+  updateAt DateTime               @updatedAt
+
+  name              String
+  activityStartDate DateTime?
+  activityEndDate   DateTime?
+  imgURL            String?
+  description       String?       @db.Text
+
+  userId String
+  user   User                    @relation(fields: [userId], references: [id])
+
+  unionDept   UnionDepartment    @relation(fields: [unionDeptId], references: [id])
+  unionDeptId String
+
+  participants ParticipantAndActivity[]
+  //uniondepartment
+  categoryId   String
+  category     Category                 @relation(fields: [categoryId], references: [id])
+}
+
+model ParticipantAndActivity {
+  activityId    String
+  participantId String
+  Activity      Activity    @relation(fields: [activityId], references: [id])
+  Participant   Participant @relation(fields: [participantId], references: [id])
+
+  @@id([activityId, participantId])
+}
+
+model Category {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name       String
+  activities Activity[]
+}
+
+model Achievement {
+  id       String   @id @default(uuid())
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  no       String
+  content  String   @unique
+  signDate DateTime
+
+  participants AchievementsOnParticipants[]
+
+  facultyId String
+  faculty   Faculty @relation(fields: [facultyId], references: [id])
+  //participant
+}
+
+model AchievementsOnParticipants {
+  achievement   Achievement @relation(fields: [achievementId], references: [id])
+  achievementId String
+
+  participant   Participant @relation(fields: [participantId], references: [id])
+  participantId String
+
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  @@id([achievementId, participantId])
+}
+
+model Child {
+  id         String      @id @default(uuid())
+  parent     Participant @relation(fields: [parentId], references: [id])
+  parentId   String      @default("1")
+  familyName String      @default("Nguyen")
+  givenName  String      @default("A")
+  gender     Gender      @default(MALE)
+  dob        DateTime    @default(now())
+  createAt   DateTime    @default(now())
+  updateAt   DateTime    @default(now())
+  deletedAt  DateTime?
+}

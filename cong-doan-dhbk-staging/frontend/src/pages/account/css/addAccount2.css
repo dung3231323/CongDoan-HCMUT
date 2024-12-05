@@ -1,0 +1,44 @@
+.dialog-header {
+  font-size: 0.8rem;
+}
+
+.file-upload {
+  font-size: 0.8rem;
+}
+
+.preview-card {
+  font-size: 0.8rem;
+}
+
+.data-table-header {
+  text-align: center;
+  width: 100%;
+}
+
+.paginator-style {
+  justify-content: center;
+}
+
+.data-column {
+  text-align: center;
+  vertical-align: middle;
+  word-wrap: break-word;
+  word-break: break-all;
+  white-space: normal;
+  max-width: 270px;
+  /* Same as email */
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: end;
+  margin-top: 1rem;
+}
+
+.action-buttons .p-button {
+  margin-right: 1rem;
+}
+
+.action-buttons .p-button:last-child {
+  margin-right: 0;
+}
